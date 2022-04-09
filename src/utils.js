@@ -5,7 +5,7 @@ const getRandomInt = (min, max) => {
 };
 
 const getRandomItemsFromArray = (array, count) => {
-  return Array(count).fill(``).map(() => {
+  return [...Array(count)].map(() => {
     return array[getRandomInt(0, array.length - 1)];
   });
 };

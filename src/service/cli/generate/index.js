@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require(`fs`).promises;
+const chalk = require(`chalk`);
 const {getRandomInt, getRandomItemsFromArray, shuffle, getRandomDate, getPreviousMonthStart} = require(`../../../utils`);
 const {EXIT_CODE} = require(`../../../constants`);
 
@@ -20,13 +21,13 @@ const readContent = async (file, path = DATA_FOLDER_PATH) => {
     const content = await fs.readFile(`${path}/${file}`, `utf8`);
     return content.trim().split(`\n`);
   } catch (err) {
-    console.error(err);
+    console.error(chalk.red(err));
     return [];
   }
 };
 
 const generatePosts = (count, titles, categories, sentences) => (
-  Array(count).fill({}).map(() => {
+  [...Array(count)].map(() => {
     const fullTextLength = getRandomInt(MAX_ANNOUNCE_LENGTH, MAX_TEXT_LENGTH);
     const fullTextSentences = getRandomItemsFromArray(sentences, fullTextLength);
     const announceCount = getRandomInt(1, MAX_ANNOUNCE_LENGTH);
@@ -53,12 +54,12 @@ module.exports = {
     const postsNumber = Number.parseInt(count, 10) || DEFAULT_COUNT;
 
     if (postsNumber > MAX_COUNT) {
-      console.error(`Не больше 1000 публикаций`);
+      console.error(chalk.red(`Не больше ${MAX_COUNT} публикаций`));
       process.exit(EXIT_CODE.ERROR);
     }
 
     if (postsNumber <= 0) {
-      console.error(`Укажите положительное число публикаций`);
+      console.error(chalk.red(`Укажите положительное число публикаций`));
       process.exit(EXIT_CODE.ERROR);
     }
 
@@ -66,9 +67,9 @@ module.exports = {
 
     try {
       await fs.writeFile(FILE_NAME, content);
-      console.log(`Операция успешна. Файл создан.`);
+      console.log(chalk.green(`Операция успешна. Файл создан.`));
     } catch (err) {
-      console.error(`Невозможно записать данные в файл...`);
+      console.error(chalk.red(`Невозможно записать данные в файл...`));
     }
   }
 };
