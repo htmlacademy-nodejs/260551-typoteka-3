@@ -26,7 +26,7 @@ const readContent = async (file, path = DATA_FOLDER_PATH) => {
 };
 
 const generatePosts = (count, titles, categories, sentences) => (
-  Array(count).fill({}).map(() => {
+  [...Array(count)].map(() => {
     const fullTextLength = getRandomInt(MAX_ANNOUNCE_LENGTH, MAX_TEXT_LENGTH);
     const fullTextSentences = getRandomItemsFromArray(sentences, fullTextLength);
     const announceCount = getRandomInt(1, MAX_ANNOUNCE_LENGTH);
@@ -53,7 +53,7 @@ module.exports = {
     const postsNumber = Number.parseInt(count, 10) || DEFAULT_COUNT;
 
     if (postsNumber > MAX_COUNT) {
-      console.error(`Не больше 1000 публикаций`);
+      console.error(`Не больше ${MAX_COUNT} публикаций`);
       process.exit(EXIT_CODE.ERROR);
     }
 
