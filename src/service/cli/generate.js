@@ -2,8 +2,8 @@
 
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
-const {getRandomInt, getRandomItemsFromArray, shuffle, getRandomDate, getPreviousMonthStart} = require(`../../../utils`);
-const {EXIT_CODE} = require(`../../../constants`);
+const {getRandomInt, getRandomItemsFromArray, shuffle, getRandomDate, getPreviousMonthStart} = require(`../../utils`);
+const {EXIT_CODE} = require(`../../constants`);
 
 const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
@@ -11,7 +11,7 @@ const MAX_ANNOUNCE_LENGTH = 5;
 const MAX_TEXT_LENGTH = 50;
 const INCLUDED_MONTHS_NUMBER = 2;
 const FILE_NAME = `mocks.json`;
-const DATA_FOLDER_PATH = `${__dirname}/data`;
+const DATA_FOLDER_PATH = `./data`;
 const SENTENCES_FILE = `sentences.txt`;
 const TITLES_FILE = `titles.txt`;
 const CATEGORIES_FILE = `categories.txt`;
