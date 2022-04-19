@@ -5,13 +5,13 @@ const chalk = require(`chalk`);
 const {nanoid} = require(`nanoid`);
 const {getRandomInt, getRandomItemsFromArray, shuffle, getRandomDate, getPreviousMonthStart} = require(`../../utils`);
 const {EXIT_CODE} = require(`../../constants`);
+const {MOCKS_FILE_NAME} = require(`../../constants`);
 
 const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
 const MAX_ANNOUNCE_LENGTH = 5;
 const MAX_TEXT_LENGTH = 50;
 const INCLUDED_MONTHS_NUMBER = 2;
-const FILE_NAME = `mocks.json`;
 const DATA_FOLDER_PATH = `./data`;
 const SENTENCES_FILE = `sentences.txt`;
 const TITLES_FILE = `titles.txt`;
@@ -21,7 +21,7 @@ const COMMENTS_FILE = `comments.txt`;
 const readContent = async (file, path = DATA_FOLDER_PATH) => {
   try {
     const content = await fs.readFile(`${path}/${file}`, `utf8`);
-    return content.trim().split(`\n`);
+    return content.trim();
   } catch (err) {
     console.error(chalk.red(err));
     return [];
@@ -86,7 +86,7 @@ module.exports = {
     const content = JSON.stringify(generatePosts(postsNumber, titles, categories, sentences, comments));
 
     try {
-      await fs.writeFile(FILE_NAME, content);
+      await fs.writeFile(MOCKS_FILE_NAME, content);
       console.log(chalk.green(`Операция успешна. Файл создан.`));
     } catch (err) {
       console.error(chalk.red(`Невозможно записать данные в файл...`));
