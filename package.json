@@ -4,12 +4,13 @@
   "description": "Типотека",
   "main": "./src/service/service.js",
   "scripts": {
-    "start": "nodemon ./src/service/service.js --server",
+    "start": "cross-env NODE_ENV=production nodemon ./src/service/service.js --server",
+    "start::debug": "cross-env NODE_ENV=development nodemon ./src/service/service.js --server",
     "generate-mocks": "node ./src/service/service.js --generate 5",
     "start-front-server": "nodemon ./src/express",
     "test": "npm run eslint && npm run jest",
     "jest": "jest --verbose",
-    "eslint": "eslint --ext .js src/"
+    "eslint": "eslint --ext .js src/ --fix"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
   },
   "dependencies": {
     "chalk": "4.1.2",
+    "cross-env": "7.0.3",
     "express": "4.17.3",
     "nanoid": "3.3.2",
     "pino": "7.10.0",

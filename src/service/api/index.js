@@ -1,36 +1,51 @@
 'use strict';
 
 const express = require(`express`);
-const fs = require(`fs`).promises;
-const chalk = require(`chalk`);
 const {getRouter} = require(`./routes`);
-const {API_PREFIX, MOCKS_FILE_NAME} = require(`../../constants`);
-
-const app = express();
-
-app.use(express.json());
-
-const readMocks = async () => {
-  try {
-    const content = await fs.readFile(`${MOCKS_FILE_NAME}`, `utf8`);
-    return JSON.parse(content);
-  } catch (err) {
-    console.log(chalk.red(`Ошибка чтения файла ${MOCKS_FILE_NAME}`));
-    return [];
-  }
-};
+const {API_PREFIX, HttpCode} = require(`../../constants`);
+const {getLogger} = require(`../lib/logger`);
+const getMocks = require(`../lib/get-mock`);
 
 const runServer = async (port) => {
-  const mockData = await readMocks();
+  const logger = getLogger({name: `api`});
+  const mockData = await getMocks();
+  const app = express();
+
+  app.use(express.json());
+
+  app.use((req, res, next) => {
+    logger.debug(`Request on route ${req.url}`);
+
+    res.on(`finish`, () => {
+      logger.info(`Response status code ${res.statusCode}`);
+    });
+
+    next();
+  });
 
   app.use(API_PREFIX, getRouter(mockData));
 
+  app.use((req, res) => {
+    res.status(HttpCode.NOT_FOUND)
+      .send(`Not found`);
+
+    logger.error(`Route not found: ${req.url}`);
+  });
+
+  app.use((err, _req, _res, _next) => {
+    logger.error(`An error occurred on processing request: ${err.message}`);
+  });
+
   try {
-    app.listen(port, () => {
-      console.log(chalk.green(`Сервер запущен на порту ${port}`));
+    app.listen(port, (err) => {
+      if (err) {
+        return logger.error(`An error occurred on server creation: ${err.message}`);
+      }
+
+      return logger.info(`Server is running on ${port}`);
     });
   } catch (err) {
-    console.log(chalk.red(`Произошла ошибка: ${err.message}`));
+    logger.error(`An error occurred: ${err.message}`);
     process.exit(1);
   }
 };
