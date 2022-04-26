@@ -22,3 +22,5 @@ module.exports.HttpCode = {
 module.exports.API_PREFIX = `/api`;
 
 module.exports.MOCKS_FILE_NAME = `mocks.json`;
+
+module.exports.MAX_ID_LENGTH = 6;

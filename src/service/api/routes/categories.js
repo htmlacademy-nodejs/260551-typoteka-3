@@ -3,9 +3,9 @@
 const {Router} = require(`express`);
 const {HttpCode} = require(`../../../constants`);
 
-const categoriesRouter = new Router();
-
 const getCategoriesRouter = (service) => {
+  const categoriesRouter = new Router();
+
   categoriesRouter.get(`/`, (req, res) => {
     const categories = service.findAll();
 
