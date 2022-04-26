@@ -1,17 +1,24 @@
 'use strict';
 
-const chalk = require(`chalk`);
 const fs = require(`fs`).promises;
 const {MOCKS_FILE_NAME} = require(`../../constants`);
+const {logger} = require(`./logger`);
+
+let data = [];
 
 const getMocks = async () => {
+  if (data.length) {
+    return data;
+  }
+
   try {
     const content = await fs.readFile(`${MOCKS_FILE_NAME}`, `utf8`);
-    return JSON.parse(content);
+    data = JSON.parse(content);
   } catch (err) {
-    console.log(chalk.red(`Ошибка чтения файла ${MOCKS_FILE_NAME}`));
-    return [];
+    logger.error(`Ошибка чтения файла ${MOCKS_FILE_NAME}`);
   }
+
+  return data;
 };
 
 module.exports = getMocks;
