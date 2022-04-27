@@ -2,10 +2,11 @@
 
 const {Router} = require(`express`);
 const {HttpCode} = require(`../../../constants`);
-
-const articlesRouter = new Router();
+const articleValidator = require(`../middlewares/article-validator`);
 
 const getArticlesRouter = (articleService, commentService) => {
+  const articlesRouter = new Router();
+
   articlesRouter.get(`/`, (req, res) => {
     const articles = articleService.findAll();
 
@@ -13,7 +14,7 @@ const getArticlesRouter = (articleService, commentService) => {
       .send(articles);
   });
 
-  articlesRouter.post(`/`, (req, res) => {
+  articlesRouter.post(`/`, articleValidator, (req, res) => {
     const data = req.body;
     const article = articleService.create(data);
 
@@ -35,7 +36,7 @@ const getArticlesRouter = (articleService, commentService) => {
       .json(article);
   });
 
-  articlesRouter.put(`/:articleId`, (req, res) => {
+  articlesRouter.put(`/:articleId`, articleValidator, (req, res) => {
     const {articleId} = req.params;
     const data = req.body;
     const article = articleService.update(articleId, data);

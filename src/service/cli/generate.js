@@ -5,7 +5,7 @@ const chalk = require(`chalk`);
 const {nanoid} = require(`nanoid`);
 const {getRandomInt, getRandomItemsFromArray, shuffle, getRandomDate, getPreviousMonthStart} = require(`../../utils`);
 const {EXIT_CODE} = require(`../../constants`);
-const {MOCKS_FILE_NAME} = require(`../../constants`);
+const {MOCKS_FILE_NAME, MAX_ID_LENGTH} = require(`../../constants`);
 
 const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
@@ -21,7 +21,7 @@ const COMMENTS_FILE = `comments.txt`;
 const readContent = async (file, path = DATA_FOLDER_PATH) => {
   try {
     const content = await fs.readFile(`${path}/${file}`, `utf8`);
-    return content.trim();
+    return content.trim().split(`\n`);
   } catch (err) {
     console.error(chalk.red(err));
     return [];
@@ -36,7 +36,7 @@ const generateComments = (comments) => {
     const commentPhrasesCount = getRandomInt(1, MAX_COMMENTS_COUNT);
 
     return {
-      id: nanoid(),
+      id: nanoid(MAX_ID_LENGTH),
       text: getRandomItemsFromArray(comments, commentPhrasesCount).join(` `)
     };
   });
@@ -52,7 +52,7 @@ const generatePosts = (count, titles, categories, sentences, comments) => (
     const startDate = getPreviousMonthStart(INCLUDED_MONTHS_NUMBER);
 
     return {
-      id: nanoid(),
+      id: nanoid(MAX_ID_LENGTH),
       title: titles[getRandomInt(0, titles.length - 1)],
       createdDate: getRandomDate(startDate, new Date()),
       announce: fullTextSentences.slice(0, announceCount).join(` `),
