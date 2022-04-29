@@ -7,7 +7,7 @@ const getSearchRouter = (service) => {
   const searchRouter = new Router();
 
   searchRouter.get(`/`, (req, res) => {
-    const {query = ``} = req.query;
+    let {query = ``} = req.query;
 
     if (!query) {
       res.status(HttpCode.BAD_REQUEST).json([]);

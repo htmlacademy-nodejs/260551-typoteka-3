@@ -14,3 +14,4 @@ node_modules/
 # Директория с собранными файлами проекта
 build/
 /mocks.json
+src/express/upload/*
