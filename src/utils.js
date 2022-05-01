@@ -29,11 +29,14 @@ const getPreviousMonthStart = (monthsNumber) => {
   return new Date(currentDate.getFullYear(), currentDate.getMonth() - monthsNumber, 1);
 };
 
+const ensureArray = (value) => Array.isArray(value) ? value : [value];
+
 module.exports = {
   getRandomInt,
   getRandomItemsFromArray,
   shuffle,
   getRandomDate,
-  getPreviousMonthStart
+  getPreviousMonthStart,
+  ensureArray
 };
 
