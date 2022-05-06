@@ -17,8 +17,8 @@ CREATE TABLE users(
   first_name varchar(255) NOT NULL,
   last_name varchar(255) NOT NULL,
   avatar varchar(50) NOT NULL,
-  role_id integer NOT NULL DEFAULT 0,
-  FOREIGN KEY (role_id) REFERENCES roles (id)
+  role_id integer NOT NULL DEFAULT 1,
+  FOREIGN KEY (role_id) REFERENCES roles(id)
     ON DELETE SET DEFAULT
     ON UPDATE SET DEFAULT
 );
