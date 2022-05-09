@@ -3,11 +3,9 @@
 const express = require(`express`);
 const {getRouter} = require(`./routes`);
 const {API_PREFIX, HttpCode} = require(`../../constants`);
-const {getLogger} = require(`../lib/logger`);
 const getMocks = require(`../lib/get-mock`);
 
-const runServer = async (port) => {
-  const logger = getLogger({name: `api`});
+const runServer = async (port, logger) => {
   const mockData = await getMocks();
   const app = express();
 
