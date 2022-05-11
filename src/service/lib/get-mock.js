@@ -15,7 +15,7 @@ const getMocks = async () => {
     const content = await fs.readFile(`${MOCKS_FILE_NAME}`, `utf8`);
     data = JSON.parse(content);
   } catch (err) {
-    logger.error(`Ошибка чтения файла ${MOCKS_FILE_NAME}`);
+    logger.error(`File reading error in ${MOCKS_FILE_NAME}`);
   }
 
   return data;
